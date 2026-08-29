@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev"
+    "db:migrate": "prisma migrate dev",
+    "build": "prisma generate && tsup",
+    "deploy": "npm run build && vercel --prod"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +16,9 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^26.1.2",
-    "prisma": "^7.9.1"
+    "prisma": "^7.9.1",
+    "tsup": "^8.5.1",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",

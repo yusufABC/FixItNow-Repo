@@ -1,19 +1,22 @@
+import app from "./app";
+import config from "./config";
 
-import app from "./app"
-import config from "./config"
-// import { prisma } from "./lib/prisma"
+const PORT = config.port || 5000;
 
-const PORT=config.port || 5000
-async function main(){
-try{
-    // await prisma.$connect()
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`)
-})}catch(e){
-    console.error("Error starting server:", e)
-    // await prisma.$disconnect()
-    process.exit(1)
+async function main() {
+  try {
+    // Only listen if not running in a serverless environment (like Vercel)
+    if (config.env !== "production" || !process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`🚀 Server is running on http://localhost:${PORT}`);
+      });
+    }
+  } catch (error) {
+    console.error("❌ Error starting server:", error);
+    process.exit(1);
+  }
 }
 
-}
-main()
+main();
+
+export default app;
