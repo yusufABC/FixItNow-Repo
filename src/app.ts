@@ -10,6 +10,7 @@ import { paymentRoutes } from "./modules/payment/payment.route";
 import { reviewRoutes } from "./modules/review/review.route";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { notFound } from "./middleware/notFound";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
 const app:Application=express()
 app.use("/api/payments/webhook",express.raw({type: 'application/json'}))
 app.use(express.json());
@@ -34,4 +35,5 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use(notFound)
+app.use(globalErrorHandler)
 export default app

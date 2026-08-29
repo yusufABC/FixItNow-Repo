@@ -201,6 +201,7 @@ const getCategoryByIdFromDb = async (id: string) => {
                   id: true,
                   name: true,
                   email: true,
+                  phone:true
                  
                 },
               },
