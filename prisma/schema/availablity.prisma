@@ -1,0 +1,14 @@
+model Availability {
+  id           String   @id @default(uuid())
+  technicianId String
+  dayOfWeek    Int // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  startTime    String // e.g. "09:00"
+  endTime      String // e.g. "17:00"
+  isAvailable  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  technician TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+
+  @@map("availabilities")
+}

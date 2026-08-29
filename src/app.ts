@@ -9,6 +9,7 @@ import { serviceRouter } from "./modules/service/service.route";
 import { bookingRouter } from "./modules/booking/booking.route";
 import { paymentRoutes } from "./modules/payment/payment.route";
 import { reviewRoutes } from "./modules/review/review.route";
+import { adminRoutes } from "./modules/admin/admin.route";
 const app:Application=express()
 app.use("/api/payments/webhook",express.raw({type: 'application/json'}))
 app.use(express.json());
@@ -32,4 +33,5 @@ app.use("/api/services", serviceRouter);
 app.use("/api/bookings",bookingRouter );
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/admin", adminRoutes);
 export default app

@@ -1,0 +1,21 @@
+model Bookings{
+    id String @id @default(uuid())
+    customerId String
+    technicianId String
+    serviceId String
+    address      String?        @db.Text
+    notes      String?        @db.Text
+    scheduledAt  DateTime
+    status BookingStatus @default(REQUESTED)
+    totalAmount Float 
+    createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // Relations
+  customer User @relation(fields: [customerId],references: [id])
+technician TechnicianProfile @relation(fields: [technicianId],references: [id],onDelete: Cascade)
+service Services @relation(fields: [serviceId],references: [id],onDelete: Restrict)
+subscription Subscription?
+ review     Review?
+@@map("bookings")
+}
