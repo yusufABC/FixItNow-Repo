@@ -1,15 +1,15 @@
-
 import { Router } from "express";
 import { auth } from "../../middleware/auth";
 import { Role } from "../../../generated/prisma/enums";
 import { categoryController } from "./category.controller";
 
-const router=Router()
+const router = Router();
 
-router.post('/',auth(Role.ADMIN),categoryController.createCategories)
-router.get('/',auth(Role.ADMIN),categoryController.getAllCategories)
-router.get('/:id',auth(Role.ADMIN),categoryController.getCategoryById)
+// Only Admin can create a category
+router.post("/", auth(Role.ADMIN), categoryController.createCategories);
 
+// 🔓 PUBLIC routes (Anyone, including customers, can view categories)
+router.get("/", categoryController.getAllCategories);
+router.get("/:id", categoryController.getCategoryById);
 
-
-export const categoryRouter=router
+export const categoryRouter = router;
