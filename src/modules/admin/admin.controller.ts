@@ -52,9 +52,48 @@ const getPlatformStats = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createCategory = catchAsync(async (req: Request, res: Response) => {
+  const result = await adminService.createCategoryIntoDb(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Category created successfully",
+    data: result,
+  });
+});
+
+const getAllCategories = catchAsync(async (req: Request, res: Response) => {
+  const result = await adminService.getAllCategoriesFromDb();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Categories fetched successfully",
+    data: result,
+  });
+});
+
+const getCategoryById = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await adminService.getCategoryByIdFromDb(id as string );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Category fetched successfully",
+    data: result,
+  });
+});
+
+
+
 export const adminController = {
   getAllUsers,
   updateUserStatus,
   getAllBookings,
   getPlatformStats,
+   createCategory,
+  getAllCategories,
+  getCategoryById,
 };

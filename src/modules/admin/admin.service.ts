@@ -1,5 +1,6 @@
 import { BookingStatus, CustomerStatus, Role } from "../../../generated/prisma/enums";
 import prisma from "../../lib/prisma";
+import { ICreateCategoryPayload } from "./admin.interface";
 
 // 1. Get all users with search and filter
 const getAllUsersFromDb = async (query: {
@@ -145,9 +146,84 @@ const getPlatformStatsFromDb = async () => {
   };
 };
 
+
+// ==========================================
+// 1. CATEGORY MANAGEMENT
+// ==========================================
+
+// Create category
+const createCategoryIntoDb = async (payload: ICreateCategoryPayload) => {
+  const { name, description, imageUrl } = payload;
+
+  const isExist = await prisma.category.findUnique({
+    where: { name },
+  });
+
+  if (isExist) {
+    throw new Error("This category already exists");
+  }
+
+  const category = await prisma.category.create({
+    data: {
+      name,
+      description,
+      imageUrl,
+    },
+  });
+
+  return category;
+};
+
+// Get all categories
+const getAllCategoriesFromDb = async () => {
+  const categories = await prisma.category.findMany({
+    include: {
+      _count: {
+        select: { services: true },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  return categories;
+};
+
+// Get single category by ID
+const getCategoryByIdFromDb = async (id: string) => {
+  const category = await prisma.category.findUnique({
+    where: { id },
+    include: {
+      services: {
+        include: {
+          technician: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                 
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!category) {
+    throw new Error("Category not found");
+  }
+
+  return category;
+};
+
 export const adminService = {
   getAllUsersFromDb,
   updateUserStatusInDb,
   getAllBookingsFromDb,
   getPlatformStatsFromDb,
+  createCategoryIntoDb,
+  getAllCategoriesFromDb,
+  getCategoryByIdFromDb,
 };

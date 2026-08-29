@@ -18,4 +18,9 @@ router.get("/bookings", adminController.getAllBookings);
 // Platform Analytics
 router.get("/stats", adminController.getPlatformStats);
 
+// Category Management (POST & GET)
+router.post("/categories", adminController.createCategory);
+router.get("/categories", adminController.getAllCategories);
+router.get("/categories/:id", adminController.getCategoryById);
+
 export const adminRoutes = router;

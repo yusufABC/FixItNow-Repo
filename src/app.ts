@@ -4,7 +4,6 @@ import config from "./config";
 import cors from "cors"
 import { authRouter } from "./modules/auth/auth.route";
 import { userRouter } from "./modules/user/user.route";
-import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/service/service.route";
 import { bookingRouter } from "./modules/booking/booking.route";
 import { paymentRoutes } from "./modules/payment/payment.route";
@@ -28,7 +27,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/api/users',userRouter)
 app.use('/api/auth',authRouter)
-app.use('/api/category',categoryRouter)
 app.use("/api/services", serviceRouter);
 app.use("/api/bookings",bookingRouter );
 app.use("/api/payments", paymentRoutes);
