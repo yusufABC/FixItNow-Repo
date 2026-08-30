@@ -6,7 +6,7 @@ import { serviceController } from "./service.controller";
 
 const router=Router()
 
-router.post("/", auth(Role.TECHNICIAN,Role.ADMIN), serviceController.createService);
+router.post("/", auth(Role.TECHNICIAN), serviceController.createService);
 
 // Public routes (Search & Filter)
 router.get("/", serviceController.getAllServices);

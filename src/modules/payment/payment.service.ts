@@ -5,9 +5,6 @@ import prisma from "../../lib/prisma";
 import { BookingStatus, PaymentStatus } from "../../../generated/prisma/enums";
 import { stripe } from "../../lib/stripe";
 
-// =========================================================================
-// 1. CREATE CHECKOUT SESSION
-// =========================================================================
 const createCheckoutSession = async (customerId: string, bookingId: string) => {
   const booking = await prisma.bookings.findUnique({
     where: { id: bookingId },
@@ -124,9 +121,7 @@ const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
   }
 };
 
-// =========================================================================
-// 3. HELPER: Handle customer.subscription.created & updated
-// =========================================================================
+
 const handleChangeSubscription = async (subscription: Stripe.Subscription) => {
   const stripeSubscriptionId = subscription.id;
   const stripeCustomerId = subscription.customer as string;
@@ -164,9 +159,7 @@ const handleChangeSubscription = async (subscription: Stripe.Subscription) => {
   }
 };
 
-// =========================================================================
-// 4. HELPER: Handle customer.subscription.deleted
-// =========================================================================
+
 const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
   const stripeSubscriptionId = subscription.id;
 
@@ -185,9 +178,6 @@ const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
   }
 };
 
-// =========================================================================
-// 5. MAIN WEBHOOK DISPATCHER
-// =========================================================================
 const handleStripeWebhook = async (event: Stripe.Event) => {
   switch (event.type) {
     case "checkout.session.completed":
